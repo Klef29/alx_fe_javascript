@@ -17,6 +17,15 @@ function displayRandomQuote() {
   `;
 }
 
+function showRandomQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const quote = quotes[randomIndex];
+  quoteDisplay.innerHTML = `
+    <blockquote>"${quote.text}"</blockquote>
+    <p><strong>Category:</strong> ${quote.category}</p>
+  `;
+}
+
 // Function to add a quote
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
