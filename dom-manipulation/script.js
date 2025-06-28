@@ -13,11 +13,13 @@ function saveQuotesToLocalStorage() {
 
 // ✅ Fetch from server using async/await
 async function fetchQuotesFromServer() {
-  const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
+  const response = await fetch(
+    "https://jsonplaceholder.typicode.com/posts?_limit=5"
+  );
   const data = await response.json();
-  return data.map(post => ({
+  return data.map((post) => ({
     text: post.title,
-    category: "Server"
+    category: "Server",
   }));
 }
 
@@ -26,7 +28,7 @@ async function postQuoteToServer(quote) {
   await fetch("https://jsonplaceholder.typicode.com/posts", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(quote)
+    body: JSON.stringify(quote),
   });
 }
 
@@ -121,9 +123,9 @@ function populateCategories() {
   const select = document.getElementById("categoryFilter");
   if (!select) return;
 
-  const categories = [...new Set(quotes.map(q => q.category))];
+  const categories = [...new Set(quotes.map((q) => q.category))];
   select.innerHTML = `<option value="all">All Categories</option>`;
-  categories.forEach(cat => {
+  categories.forEach((cat) => {
     const opt = document.createElement("option");
     opt.value = cat;
     opt.textContent = cat;
@@ -142,14 +144,13 @@ function filterQuotes() {
   const selected = document.getElementById("categoryFilter").value;
   localStorage.setItem("lastCategoryFilter", selected);
 
-  const filtered = selected === "all"
-    ? quotes
-    : quotes.filter(q => q.category === selected);
+  const filtered =
+    selected === "all" ? quotes : quotes.filter((q) => q.category === selected);
 
   const display = document.getElementById("quoteDisplay");
   display.innerHTML = "";
 
-  filtered.forEach(quote => {
+  filtered.forEach((quote) => {
     const block = document.createElement("blockquote");
     block.textContent = `"${quote.text}"`;
     const cat = document.createElement("p");
@@ -172,7 +173,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   populateCategories();
 
-  document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
+  document
+    .getElementById("newQuote")
+    .addEventListener("click", displayRandomQuote);
 
   await syncQuotes();
+
+  setInterval(syncQuotes, 30000);
 });
